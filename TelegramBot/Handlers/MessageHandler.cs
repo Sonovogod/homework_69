@@ -1,16 +1,19 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using TelegramBot.Contracts;
+using TelegramBot.GameProcess;
 
 namespace TelegramBot.Handlers;
 
 public class MessageHandler : IBotUpdateHandler
 {
     private readonly TelegramBotClient _botClient;
+    private readonly StartGame _startGame;
 
     public MessageHandler(TelegramBotClient botClient)
     {
         _botClient = botClient;
+        _startGame = new StartGame(botClient);
     }
 
     public async Task HandlerUpdateAsync(Update? update, CancellationToken cancellationToken)
@@ -36,7 +39,10 @@ public class MessageHandler : IBotUpdateHandler
                                 "За один ход можно использвать одно оружие";
                 break;
             case "/game":
-                outputMessage = "тут должен быть старт но чуть поже";
+                _startGame.HandlerUpdateAsync(update, cancellationToken);
+                break;
+            case "/stop":
+                outputMessage = "Ты бидся храбро, благодарю за бой";
                 break;
             default:
                 outputMessage = "Ты говоришь на языке древних, нам не понять тебя";

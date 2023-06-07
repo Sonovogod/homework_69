@@ -1,26 +1,24 @@
-using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using TelegramBot.Contracts;
+using TelegramBot.GameProcess;
 using TelegramBot.Handlers;
 
 namespace TelegramBot;
 
 public class BotRunner
 {
-    private IBotUpdateHandler _botUpdateHandler;
+    private IBotUpdateHandler? _botUpdateHandler;
     private readonly BotPollingErrorHandler _errorHandler;
     private readonly CancellationTokenSource _cancellationTokenSource;
     private readonly TelegramBotClient _botClient;
 
     public BotRunner(string token)
     {
-        _botUpdateHandler = new MessageHandler(_botClient);
+        _botClient = new TelegramBotClient(token);
         _errorHandler = new BotPollingErrorHandler();
         _cancellationTokenSource = new CancellationTokenSource();
-        _botClient = new TelegramBotClient(token);
     }
 
     public async Task StartAsync()
@@ -46,6 +44,9 @@ public class BotRunner
         {
             case UpdateType.Message:
                 _botUpdateHandler = new MessageHandler(_botClient);
+                break;
+            case UpdateType.CallbackQuery:
+                _botUpdateHandler = new StartGame(_botClient);
                 break;
         }
 
