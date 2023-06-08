@@ -46,7 +46,7 @@ public class BotRunner
                 _botUpdateHandler = new MessageHandler(_botClient);
                 break;
             case UpdateType.CallbackQuery:
-                _botUpdateHandler = new StartGame(_botClient);
+                _botUpdateHandler = new InlineKeyboardHandler(_botClient);
                 break;
         }
 

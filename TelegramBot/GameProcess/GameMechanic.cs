@@ -12,7 +12,7 @@ public class GameMechanic
     public string RockPaperScissors(string first)
     {
         string[] variable = new[] { "камень", "ножницы", "бумага" };
-        int index = _random.Next(0, 4);
+        int index = _random.Next(0, 3);
         string second = variable[index];
 
         string answer = (first, second) switch

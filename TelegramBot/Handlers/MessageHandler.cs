@@ -36,16 +36,17 @@ public class MessageHandler : IBotUpdateHandler
                                 "Смертоносный булыжник\n" +
                                 "Всепоглощающее полотно бесконечности\n" +
                                 "Двойные мечи бога войны\n \n" +
-                                "За один ход можно использвать одно оружие";
+                                "За один ход можно использвать одно оружие\n \n" +
+                                "Для старта битвы используй /game";
                 break;
             case "/game":
-                _startGame.HandlerUpdateAsync(update, cancellationToken);
-                break;
+                await _startGame.HandlerUpdateAsync(update, cancellationToken);
+                return;
             case "/stop":
-                outputMessage = "Ты бидся храбро, благодарю за бой";
+                outputMessage = "Остановить остановленное может тот, кто познал познанное";
                 break;
             default:
-                outputMessage = "Ты говоришь на языке древних, нам не понять тебя";
+                outputMessage = "Ты говоришь на языке древних, нам не понять тебя используй /help";
                 break;
         }
         await _botClient.SendTextMessageAsync(
